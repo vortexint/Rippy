@@ -2,10 +2,6 @@
 
 Rippy is a simple web scraper application with simple setup aimed at producing datasets for language models. It is designed to be easy to set up and use, and to produce high-quality datasets for training language models.
 
-# Rippy
-
-Rippy is a simple web scraper application with simple setup aimed at producing datasets for language models. It is designed to be easy to set up and use, and to produce high-quality datasets for training language models.
-
 ## Usage
 
 To use Rippy, you need to download the latest installer, which will enable you to use the command `Rippy create <projectname>` to
@@ -25,12 +21,7 @@ Example project file:
 # The user agent to use when scraping, this is used to identify the scraper to the server.
 userAgent: Rippy/1.0
 threads: 4
-<<<<<<< HEAD
-depth: 0 
-saveSession: true
-=======
 depth: 0
->>>>>>> 8fd0e81dc6fed49071da45fde164aeae20ad43df
 domains:
   - domain: en.wikipedia.com
     start_pages:
