@@ -17,11 +17,12 @@ const char* defaultProjectConfig = R""""(
 # The user agent to use when scraping, this is used to identify the scraper to the server.
 userAgent: Rippy/1.0
 threads: 4 # Increasing this will increase the speed of the scraper, but will also increase the load on the server.
-depth: 0 # disable depth limit, e.g. 10000 would limit the scraper to 10000 pages
+depth: 0 # disable depth limit, (e.g. 10000 would limit the scraper to 10000 pages)
+saveSession: true # save the session to a file, so that it can be resumed if the program is interrupted
 domains:
   - domain: en.wikipedia.com
     start_pages:
-        - /wiki/Main_Page
+      - /wiki/Main_Page
     avoid:
       - /w/index.php?title=Special
     rules:
