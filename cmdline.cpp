@@ -3,13 +3,15 @@
 #include <iostream>
 #include <fstream>
 
-const char* help = R""""(
-Rippy is a command-line based tool for scraping webpages.
+#include "rippy.hpp"
+
+const char* help = R""""(Rippy is a command-line based tool for scraping webpages.
 Usage:
 rippy help - Display this help message
-rippy create <name> - Create a new project (project.yml) containing the settings and HTML rules for scraping each domain
+rippy create <name> - Create a new project (project.yml) containing the settings and rules for each domain
 rippy start - Run the project in the current directory.
-)"""";
+
+For more information, see https://github.com/vortexdevsoftware/Rippy)"""";
 
 // The initial project.yml file that is created when the user runs "create"
 const char* defaultProjectConfig = R""""(
