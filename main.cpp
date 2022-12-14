@@ -10,7 +10,7 @@
 /* Rippy is a command-line based tool for scraping webpages.
 Usage:
 rippy help - Display this help message
-rippy create <name> - Create a new project (project.yaml) containing the settings and HTML rules for scraping each domain
+rippy create <name> - Create a new project (project.yml) containing the settings and HTML rules for scraping each domain
 */
 
 int main(int argc, char* argv[])
@@ -18,14 +18,14 @@ int main(int argc, char* argv[])
     if (parseArgs(argc,argv))
         return 0;
 
-    // check for project.yaml in current directory
-    if (!std::filesystem::exists("project.yaml")){
-
-    std::cout << "QUIT: No project.yaml found in current directory.\r";
-    return 0;
-
+    // check for project.yml in current directory
+    if (!std::filesystem::exists("project.yml")) {
+        std::cout << "QUIT: No project.yaml found in current directory.\r";
+        return 0;
     }
 
+    
 
 
+    return 0;
 }

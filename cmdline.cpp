@@ -7,33 +7,31 @@ const char* help = R""""(
 Rippy is a command-line based tool for scraping webpages.
 Usage:
 rippy help - Display this help message
-rippy create <name> - Create a new project (project.json) containing the settings and HTML rules for scraping each domain
-rippy run - Run the project in the current directory.
-
-The project.json rules include:
-    1. The user agent to use when scraping, this is used to identify the scraper to the server
-    2. The list of domains to recursively scrape, and the rules for scraping each domain
-    3. The HTML tags and their attributes to scrape for each domain
-    4. The output txt file's name.
+rippy create <name> - Create a new project (project.yml) containing the settings and HTML rules for scraping each domain
+rippy start - Run the project in the current directory.
 )"""";
 
-// The initial project.json file that is created when the user runs "create"
+// The initial project.yml file that is created when the user runs "create"
 const char* defaultProjectConfig = R""""(
-{
-    "userAgent": "Rippy/1.0",
-    "domains": [
-        {
-            "domain": "example.com",
-            "rules": [
-                {
-                    "tag": "a",
-                    "attribute": "href"
-                }
-            ]
-        }
-    ],
-    "output": "output.txt"
-}
+# Crawler configuration  (YAML)
+# The user agent to use when scraping, this is used to identify the scraper to the server.
+userAgent: Rippy/1.0
+threads: 4 # Increasing this will increase the speed of the scraper, but will also increase the load on the server.
+depth: 0 # disable depth limit, e.g. 10000 would limit the scraper to 10000 pages
+domains:
+  - domain: en.wikipedia.com
+    start_pages:
+        - /wiki/Main_Page
+    avoid:
+      - /w/index.php?title=Special
+    rules:
+      - tag: span
+        attribute: class
+        has: mw-page-title-main
+      - tag: div
+        attribute: id
+        has: mw-content-text
+output: output.txt
 )"""";
 
 // Returns 1 if the program should exit, 0 only if the user used the "run" command
@@ -55,7 +53,7 @@ int parseArgs(int argc, char* argv[])
         return 1;
     }
     // If the user asked to create a new project, check that they supplied a name
-    // for the project, and then create a file called project.json with the
+    // for the project, and then create a file called project.yml with the
     // project name in it.
     else if (arg1 == "create")
     {
@@ -65,21 +63,21 @@ int parseArgs(int argc, char* argv[])
             return 1;
         }
         std::string arg2 = argv[2];
-        // add defaultProjectConfig to project.json 
-        std::ofstream file("project.json");
+        // add defaultProjectConfig to project.yml 
+        std::ofstream file("project.yml");
         if (file.fail())
         {
-            std::cout << "Error creating project.json\r";
+            std::cout << "Error creating project.yml\r";
             return 1;
         }
         file << defaultProjectConfig;
         file.close();
-        std::cout << "Created project.json\r";
+        std::cout << "Created project.yml\r";
         return 1;
     }
     // If the user asked to run the project, return 0 to indicate that we should
     // continue to run the project.
-    else if (arg1 == "run")
+    else if (arg1 == "start")
     {
         return 0;
     }
