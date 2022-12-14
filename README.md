@@ -18,8 +18,8 @@ Example project file:
 # Crawler configuration  (YAML)
 # The user agent to use when scraping, this is used to identify the scraper to the server.
 userAgent: Rippy/1.0
-threads: 4 # Increasing this will increase the speed of the scraper, but will also increase the load on the server.
-depth: 0 # disable depth limit, e.g. 10000 would limit the scraper to 10000 pages
+threads: 4
+depth: 0
 domains:
   - domain: en.wikipedia.com
     start_page:
