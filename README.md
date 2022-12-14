@@ -25,8 +25,12 @@ Example project file:
 # The user agent to use when scraping, this is used to identify the scraper to the server.
 userAgent: Rippy/1.0
 threads: 4
+<<<<<<< HEAD
 depth: 0 
 saveSession: true
+=======
+depth: 0
+>>>>>>> 8fd0e81dc6fed49071da45fde164aeae20ad43df
 domains:
   - domain: en.wikipedia.com
     start_pages:
