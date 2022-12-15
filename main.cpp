@@ -59,8 +59,13 @@ int main(int argc, char* argv[])
             entry.start_pages.emplace_back(config["domains"][i]["start_pages"][j].as<std::string>());
         for (std::size_t j=0;j<config["domains"][i]["avoid"].size();j++)
             entry.avoid.emplace_back(config["domains"][i]["avoid"][j].as<std::string>());
-        for (std::size_t j=0;j<config["domains"][i]["rules"].size();j++)
-            //entry.rules.emplace_back(config["domains"][i]["rules"][j].as<std::string>());
+        for (std::size_t j=0;j<config["domains"][i]["rules"].size();j++) {
+            domainRule rule;
+            rule.tag = config["domains"][i]["rules"][j]["tag"].as<std::string>();
+            rule.attribute = config["domains"][i]["rules"][j]["attribute"].as<std::string>();
+            rule.has = config["domains"][i]["rules"][j]["has"].as<std::string>();
+            entry.rules.emplace_back(rule);
+        }
 
         domains.emplace_back(entry);
     }
