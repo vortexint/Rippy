@@ -12,11 +12,14 @@
 #include "./rippy.hpp"
 #include "./cmdline.hpp"
 
+struct domainRule {
+    std::string tag, attribute, has;
+};
+
 struct domainEntry {
     std::string domain;
-    std::vector<std::string> start_pages;
-    std::vector<std::string> avoid;
-    std::vector<std::string> rules;
+    std::vector<std::string> start_pages, avoid;
+    std::vector<domainRule> rules;
 };
 
 int main(int argc, char* argv[])
@@ -52,22 +55,25 @@ int main(int argc, char* argv[])
     for (std::size_t i=0;i<config["domains"].size();i++) {
         domainEntry entry;
         entry.domain = config["domains"][i]["domain"].as<std::string>();
-        for (std::size_t j=0;j<config["domains"][i]["start_pages"].size();j++) {
+        for (std::size_t j=0;j<config["domains"][i]["start_pages"].size();j++)
             entry.start_pages.emplace_back(config["domains"][i]["start_pages"][j].as<std::string>());
-        }
+        for (std::size_t j=0;j<config["domains"][i]["avoid"].size();j++)
+            entry.avoid.emplace_back(config["domains"][i]["avoid"][j].as<std::string>());
+        for (std::size_t j=0;j<config["domains"][i]["rules"].size();j++)
+            //entry.rules.emplace_back(config["domains"][i]["rules"][j].as<std::string>());
 
         domains.emplace_back(entry);
     }
-    std::cout << userAgent << " will run on (" << domains.size() << ") domains using " << threads << " threads, with ";
+    std::cout << userAgent << " will run on " << domains.size() << " domains using " << threads << " threads, with ";
     if (depth)
-        std::cout << "a depth of " << depth << "\n";
+        std::cout << "a depth of " << depth << ".\n";
     else
-        std::cout << "no depth limit\n";
+        std::cout << "no depth limit.\n";
 
-    // check if last session was saved
+    /* check if last session was saved */
 
     if (saveSession && std::filesystem::exists("session.yml")) {
-        std::cout << "Found session.yml, load it? (Y/N): ";
+        std::cout << "\nFound session.yml, load it? (Y/N): ";
         if (std::tolower(std::cin.get()) == 'y') {
             std::cout << "Loading session.yml\n";
             YAML::Node session = YAML::LoadFile("session.yml");
