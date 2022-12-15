@@ -91,7 +91,12 @@ int main(int argc, char* argv[])
         }
     }
 
-
+    /* start threads */
+    std::vector<std::thread> threadPool;
+    threadPool.reserve(threads);
+    for (int i=0;i<threads;i++) {
+        //threadPool.emplace_back(rippyThread, userAgent, domains, visitedPages, depth);
+    }
 
 
 
