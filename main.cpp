@@ -1,26 +1,11 @@
-#define _WIN32_WINNT 0x0501
 #include <iostream>
-#include <string>
-#include <asio.hpp>
-#include <fstream>
 #include <filesystem>
-#include <thread>
 #include <chrono>
 
 #include "yaml-cpp/yaml.h"
 
 #include "./rippy.hpp"
 #include "./cmdline.hpp"
-
-struct domainRule {
-    std::string tag, attribute, has;
-};
-
-struct domainEntry {
-    std::string domain;
-    std::vector<std::string> start_pages, avoid;
-    std::vector<domainRule> rules;
-};
 
 int main(int argc, char* argv[])
 {
@@ -37,7 +22,7 @@ int main(int argc, char* argv[])
 
     /* config variables */
     std::string userAgent;
-    int threads, depth;
+    unsigned int threads, depth;
     bool saveSession;
     std::vector<domainEntry> domains;
     domains.reserve(1);
@@ -91,12 +76,19 @@ int main(int argc, char* argv[])
         }
     }
 
-    /* start threads */
-    std::vector<std::thread> threadPool;
-    threadPool.reserve(threads);
-    for (int i=0;i<threads;i++) {
-        //threadPool.emplace_back(rippyThread, userAgent, domains, visitedPages, depth);
+    // check if amount of threads is valid
+    if (threads > std::thread::hardware_concurrency()) {
+        std::cout << "QUIT: Number of threads is higher than hardware supported which is" << std::thread::hardware_concurrency() << ".\n";
+        return 0;
     }
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    asio::io_context io_context(threads);
+
+
+
+
 
 
 
