@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     std::vector<domainEntry> domains;
     domains.reserve(1);
 
-    std::cout << "Starting Rippy (" << VERSION << ") - Vortex Interactive\n";
+    std::cout << "Starting Rippy (" << VERSION << ") - Vortex Interactive\n\n";
 
     /* load config */
     YAML::Node config = YAML::LoadFile("project.yml");
@@ -72,26 +72,24 @@ int main(int argc, char* argv[])
         for (std::size_t j=0;j<config["domains"][i]["rules"].size();j++) {
             domainRule rule;
             std::string tag = config["domains"][i]["rules"][j]["tag"].as<std::string>();
-            if (tag.empty()) {
-                std::cerr << "Rule tag is empty" << std::endl;
-                continue;
+            if (tag == "null") {
+                std::cerr << "QUIT: \"tag\" is empty on rule " << j << " for domain \"" << domain << "\"\n";
+                exit(1);
             }
             rule.tag = tag;
 
             std::string attribute = config["domains"][i]["rules"][j]["attribute"].as<std::string>();
-            if (attribute.empty()) {
-                std::cerr << "Rule attribute is empty" << std::endl;
-                continue;
+            if (attribute == "null") {
+                std::cerr << "QUIT: \"attribute\" is empty on rule " << j << " for domain \"" << domain << "\"\n";
+                exit(1);
             }
             rule.attribute = attribute;
 
             std::string has = config["domains"][i]["rules"][j]["has"].as<std::string>();
-            if (has.empty()) {
-                std::cerr << "Rule has is empty" << std::endl;
-                continue;
+            if (has == "null") {
+                std::cerr << "QUIT: \"has\" is empty on rule " << j << " for domain \"" << domain << "\"\n";
+                exit(1);
             }
-            rule.has = has;
-
             entry.rules.emplace_back(rule);
         }
 
@@ -99,9 +97,13 @@ int main(int argc, char* argv[])
     }
     std::cout << userAgent << " will run on " << domains.size() << " domains using " << threads << " threads, with ";
     if (depth)
-        std::cout << "a depth of " << depth << ".\n";
+        std::cout << "a depth of " << depth << " and\n";
     else
-        std::cout << "no depth limit.\n";
+        std::cout << "no depth limit and\n";
+    if (saveSession)
+        std::cout << "session saving enabled.\n\n";
+    else
+        std::cout << "session saving disabled.\n\n";
 
     /* check if last session was saved */
 
@@ -129,9 +131,8 @@ int main(int argc, char* argv[])
 
     asio::io_context io_context(threads);
 
-
-
-
+    //rippy rippy(io_context, userAgent, visitedPages, domains, depth);
+    //rippy.start();
 
 
 

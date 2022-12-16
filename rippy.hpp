@@ -6,7 +6,9 @@
 #include <thread>
 #include <asio.hpp>
 #include <fstream>
+#include <unordered_set>
 #include <string>
+#include <queue>
 
 struct domainRule {
     std::string tag, attribute, has;
@@ -29,4 +31,16 @@ private:
     std::vector<std::string> visited_pages;
     std::vector<domainEntry> domains;
     int depth;
+};
+
+// The linkbuffer is used to keep track of which links have already been visited and which haven't.
+class LinkBuffer {
+    std::unordered_set<std::string_view> visited_links;
+    std::queue<std::string> unvisited_links;
+public:
+    void checkAdd(const std::string& link); // check if link has been visited, if not, add it to the unvisited_links queue
+    std::string getNext(); // get the next unvisited link
+    bool isEmpty(); // check if there are any unvisited links
+    size_t size(); // get the number of unvisited links
+    size_t visitedSize(); // get the number of visited links
 };

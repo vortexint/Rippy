@@ -6,7 +6,7 @@ set (CMAKE_CXX_STANDARD 20)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${CMAKE_SOURCE_DIR}/modules/")
 
-add_executable(Rippy main.cpp cmdline.cpp)
+add_executable(Rippy main.cpp rippy.cpp cmdline.cpp)
 
 # add library yaml-cpp (project YAML-CPP) at modules/yaml-cpp
 add_subdirectory(modules/yaml-cpp)
