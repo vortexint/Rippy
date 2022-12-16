@@ -1,6 +1,6 @@
 # Rippy
 
-Rippy is a simple web scraper application with simple setup aimed at producing datasets for language models. It is designed to be easy to set up and use, and to produce high-quality datasets for training language models.
+Rippy is a simple web scraper application with simple setup mostly aimed at producing high-quality datasets for language models. It is designed to be easy to set up and use.
 
 Rippy operates differently than most other web scrapers; please read the Usage section for more information. 
 
@@ -11,8 +11,8 @@ generate project file (`project.yml`) containing the settings and HTML rules for
 
 * `userAgent` - The user agent to use when scraping, this is used to identify the scraper to the server.
 * `threads` - The number of threads to use when scraping. Increasing this will increase the speed of the scraper, but will also increase the load on the server.
-* `saveSession` - Allows you to resume an interrupted crawl without having to reload the pages by storing all visited subpages to a separate file.
 * `depth` - The maximum depth to which the scraper should crawl. Setting this to 0 will disable the depth limit.
+* `saveSession` - Allows you to resume an interrupted crawl without having to reload the pages by storing all visited subpages to a separate file.
 * `domains` - The list of domains to start recursively scraping, and the rules for scraping each domain.
 * `output` - The name of the output text file.
 
@@ -24,6 +24,7 @@ Example project file:
 userAgent: Rippy/1.0
 threads: 4
 depth: 0
+saveSession: true
 domains:
   - domain: en.wikipedia.com
     start_pages:
@@ -45,6 +46,8 @@ output: output.txt
 This will get the title and contents of each article.
 
 To run the project, use the command `rippy start` in the directory containing the project file.
+
+If any mistakes were made in the project file, most will be reported when you run the project.
 
 ## Contributing
 

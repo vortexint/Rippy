@@ -39,16 +39,59 @@ int main(int argc, char* argv[])
     // the "domains" node is a sequence
     for (std::size_t i=0;i<config["domains"].size();i++) {
         domainEntry entry;
-        entry.domain = config["domains"][i]["domain"].as<std::string>();
-        for (std::size_t j=0;j<config["domains"][i]["start_pages"].size();j++)
-            entry.start_pages.emplace_back(config["domains"][i]["start_pages"][j].as<std::string>());
-        for (std::size_t j=0;j<config["domains"][i]["avoid"].size();j++)
-            entry.avoid.emplace_back(config["domains"][i]["avoid"][j].as<std::string>());
+        std::string domain = config["domains"][i]["domain"].as<std::string>();
+        if (domain == "null") {
+            std::clog << "QUIT: Domain " << i << " is empty\n";
+            exit(1);
+        }
+        entry.domain = domain;
+
+        // check if start_pages property exists for the domain
+        if (!config["domains"][i]["start_pages"]) {
+            std::clog << "NOTE: There is no \"start_pages\" list for the domain \"" << domain << "\", Rippy will use the domain as the start page.\n\n";
+            entry.start_pages.emplace_back(domain);
+        }
+        else if (config["domains"][i]["start_pages"].size() == 0) {
+            std::cerr << "NOTE: start_pages exists for domain \"" << domain << "\" but it has no pages, Rippy will use the domain as the start page.\n\n";
+            entry.start_pages.emplace_back(domain);
+        }
+
+        for (std::size_t j=0;j<config["domains"][i]["avoid"].size();j++) {
+            std::string avoid = config["domains"][i]["avoid"][j].as<std::string>();
+            if (avoid.empty())
+                continue; // avoid is optional
+            entry.avoid.emplace_back(avoid);
+        }
+
+        // check if rules property exists for the domain
+        if (!config["domains"][i]["rules"]) {
+            std::cerr << "QUIT: There is no \"rules\" property for domain \"" << domain << "\"\n";
+            exit(1);
+        }
+
         for (std::size_t j=0;j<config["domains"][i]["rules"].size();j++) {
             domainRule rule;
-            rule.tag = config["domains"][i]["rules"][j]["tag"].as<std::string>();
-            rule.attribute = config["domains"][i]["rules"][j]["attribute"].as<std::string>();
-            rule.has = config["domains"][i]["rules"][j]["has"].as<std::string>();
+            std::string tag = config["domains"][i]["rules"][j]["tag"].as<std::string>();
+            if (tag.empty()) {
+                std::cerr << "Rule tag is empty" << std::endl;
+                continue;
+            }
+            rule.tag = tag;
+
+            std::string attribute = config["domains"][i]["rules"][j]["attribute"].as<std::string>();
+            if (attribute.empty()) {
+                std::cerr << "Rule attribute is empty" << std::endl;
+                continue;
+            }
+            rule.attribute = attribute;
+
+            std::string has = config["domains"][i]["rules"][j]["has"].as<std::string>();
+            if (has.empty()) {
+                std::cerr << "Rule has is empty" << std::endl;
+                continue;
+            }
+            rule.has = has;
+
             entry.rules.emplace_back(rule);
         }
 
@@ -63,7 +106,7 @@ int main(int argc, char* argv[])
     /* check if last session was saved */
 
     if (saveSession && std::filesystem::exists("session.yml")) {
-        std::cout << "\nFound session.yml, load it? (Y/N): ";
+        std::cout << "\nFound session.yml, restore previously crawled pages? (Y/N): ";
         if (std::tolower(std::cin.get()) == 'y') {
             std::cout << "Loading session.yml\n";
             YAML::Node session = YAML::LoadFile("session.yml");
