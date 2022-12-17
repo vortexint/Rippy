@@ -10,13 +10,19 @@
 #include <string>
 #include <queue>
 
+// filter mode
+enum class filterMode {
+    whitelist,
+    blacklist
+};
+
 struct domainRule {
     std::string tag, attribute, has;
 };
 
 struct domainEntry {
-    std::string domain;
-    std::vector<std::string> start_pages, avoid;
+    std::string domain, filter_mode;
+    std::vector<std::string> start_pages, filter;
     std::vector<domainRule> rules;
 };
 

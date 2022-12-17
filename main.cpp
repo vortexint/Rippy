@@ -56,11 +56,31 @@ int main(int argc, char* argv[])
             entry.start_pages.emplace_back(domain);
         }
 
-        for (std::size_t j=0;j<config["domains"][i]["avoid"].size();j++) {
-            std::string avoid = config["domains"][i]["avoid"][j].as<std::string>();
-            if (avoid.empty())
-                continue; // avoid is optional
-            entry.avoid.emplace_back(avoid);
+        for (std::size_t j=0;j<config["domains"][i]["filter"].size();j++) {
+            std::string filter = config["domains"][i]["filter"][j].as<std::string>();
+            if (filter == "null")
+                continue; // filter is optional
+            entry.filter.emplace_back(filter);
+        }
+
+        // check if filter_mode property exists for the domain
+        if (!config["domains"][i]["filter_mode"]) {
+            std::cerr << "NOTE: There is no \"filter_mode\" property for domain \"" << domain << "\", Rippy will use \"whitelist\" mode.\n\n";
+            entry.filter_mode = "whitelist";
+        }
+        else {
+            std::string filter_mode = config["domains"][i]["filter_mode"].as<std::string>();
+            if (filter_mode == "null") {
+                std::cerr << "NOTE: \"filter_mode\" is empty for domain \"" << domain << "\", Rippy will use \"whitelist\" mode.\n\n";
+                entry.filter_mode = "whitelist";
+            }
+            else if (filter_mode != "whitelist" && filter_mode != "blacklist") {
+                std::cerr << "NOTE: \"filter_mode\" is invalid for domain \"" << domain << "\", Rippy will use \"whitelist\" mode.\n\n";
+                entry.filter_mode = "whitelist";
+            }
+            else {
+                entry.filter_mode = filter_mode;
+            }
         }
 
         // check if rules property exists for the domain
@@ -129,10 +149,12 @@ int main(int argc, char* argv[])
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    asio::io_context io_context(threads);
-
-    //rippy rippy(io_context, userAgent, visitedPages, domains, depth);
-    //rippy.start();
+    // start threads
+    std::vector<std::thread> threadPool;
+    threadPool.reserve(threads);
+    for (unsigned int i=0;i<threads;i++) {
+        //threadPool.emplace_back(threadFunction, userAgent, depth, saveSession, std::ref(visitedPages), std::ref(domains));
+    }
 
 
 

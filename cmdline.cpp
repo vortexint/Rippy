@@ -15,17 +15,18 @@ For more information, see https://github.com/vortexdevsoftware/Rippy)"""";
 
 // The initial project.yml file that is created when the user runs "create"
 const char* defaultProjectConfig = R""""(
-# Crawler configuration (YAML)
+# Crawler configuration  (YAML)
 # The user agent to use when scraping, this is used to identify the scraper to the server.
 userAgent: Rippy/1.0
-threads: 4 # Increasing this will increase the speed of the scraper, but will also increase the load on the server.
+threads: 4 # increasing this will increase the speed of the scraper, but will also increase the load on the network.
 depth: 0 # disable depth limit, (e.g. 10000 would limit the scraper to 10000 pages)
 saveSession: true # save the session to a file, so that it can be resumed if the program is interrupted
 domains:
   - domain: en.wikipedia.com
+    filter_mode: blacklist # will skip any subpages that begin with the strings in the filter list whereas whitelist will only visit pages that begin with the strings in the filter list.
     start_pages:
       - /wiki/Main_Page
-    avoid:
+    filter:
       - /w/index.php?title=Special
     rules:
       - tag: span

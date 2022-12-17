@@ -6,7 +6,7 @@ rippy::rippy(asio::io_context& io_context, const std::string& user_agent, const 
 void rippy::start() {
     for (auto& domain : domains) {
         for (auto& page : domain.start_pages) {
-            std::make_shared<Page>(io_context, user_agent, page, domain, depth, visited_pages)->start();
+            
         }
     }
 }
