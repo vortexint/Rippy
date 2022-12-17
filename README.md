@@ -38,12 +38,10 @@ domains:
     rules:
       - tag: span
         attribute: class
-        value:
-        - mw-page-title-main
+        value: mw-page-title-main
       - tag: div
         attribute: id
-        value:
-        - mw-content-text
+        value: mw-content-text
 output: output.txt
 ```
 
