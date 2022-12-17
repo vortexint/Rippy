@@ -105,9 +105,9 @@ int main(int argc, char* argv[])
             }
             rule.attribute = attribute;
 
-            std::string has = config["domains"][i]["rules"][j]["has"].as<std::string>();
-            if (has == "null") {
-                std::cerr << "QUIT: \"has\" is empty on rule " << j << " for domain \"" << domain << "\"\n";
+            std::string value = config["domains"][i]["rules"][j]["value"].as<std::string>();
+            if (value == "null") {
+                std::cerr << "QUIT: \"value\" is empty on rule " << j << " for domain \"" << domain << "\"\n";
                 exit(1);
             }
             entry.rules.emplace_back(rule);

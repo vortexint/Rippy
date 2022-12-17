@@ -17,7 +17,7 @@ enum class filterMode {
 };
 
 struct domainRule {
-    std::string tag, attribute, has;
+    std::string tag, attribute, value;
 };
 
 struct domainEntry {

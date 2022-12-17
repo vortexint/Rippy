@@ -38,11 +38,11 @@ domains:
     rules:
       - tag: span
         attribute: class
-        has:
+        value:
         - mw-page-title-main
       - tag: div
         attribute: id
-        has:
+        value:
         - mw-content-text
 output: output.txt
 ```

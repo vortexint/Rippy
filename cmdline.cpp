@@ -31,10 +31,10 @@ domains:
     rules:
       - tag: span
         attribute: class
-        has: mw-page-title-main
+        value: mw-page-title-main
       - tag: div
         attribute: id
-        has: mw-content-text
+        value: mw-content-text
 output: output.txt
 )"""";
 
