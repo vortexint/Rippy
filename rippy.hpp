@@ -3,12 +3,14 @@
 #define _WIN32_WINNT 0x0601
 #define VERSION "1.0"
 
+#include <iostream>
 #include <thread>
 #include <asio.hpp>
 #include <fstream>
 #include <unordered_set>
 #include <string>
 #include <queue>
+#include <mutex>
 
 // filter mode
 enum class filterMode {
@@ -26,17 +28,13 @@ struct domainEntry {
     std::vector<domainRule> rules;
 };
 
-class rippy {
-public:
-    rippy(asio::io_context& io_context, const std::string& user_agent, const std::vector<std::string>& visited_pages, const std::vector<domainEntry>& domains, int depth);
-    void start();
-
-private:
-    asio::io_context& io_context;
-    std::string user_agent;
-    std::vector<std::string> visited_pages;
+// config struct+
+struct rippyConfig {
+    std::string userAgent;
+    unsigned int depth, threads;
+    bool saveSession;
     std::vector<domainEntry> domains;
-    int depth;
+    std::vector<std::string> visitedPages;
 };
 
 // The linkbuffer is used to keep track of which links have already been visited and which haven't.
@@ -50,3 +48,6 @@ public:
     size_t size(); // get the number of unvisited links
     size_t visitedSize(); // get the number of visited links
 };
+
+// Rippy thread task function with reference to LinkBuffer, rippyConfig, and asio::io_context
+void rippyTask(asio::io_context& io_context, const LinkBuffer&, const rippyConfig& config);

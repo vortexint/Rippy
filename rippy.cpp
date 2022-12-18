@@ -1,12 +1,7 @@
 #include "rippy.hpp"
 #include <memory>
-// definitions for rippy class
-rippy::rippy(asio::io_context& io_context, const std::string& user_agent, const std::vector<std::string>& visited_pages, const std::vector<domainEntry>& domains, int depth) : io_context(io_context), user_agent(user_agent), visited_pages(visited_pages), domains(domains), depth(depth) {}
 
-void rippy::start() {
-    for (auto& domain : domains) {
-        for (auto& page : domain.start_pages) {
-            
-        }
-    }
+void rippyTask(asio::io_context& io_context, const LinkBuffer&, const rippyConfig& config)
+{
+    std::cout << "Started thread " << std::this_thread::get_id() << "\n";
 }
