@@ -169,13 +169,15 @@ int main(int argc, char* argv[])
         threads[i] = std::thread(rippyTask, std::ref(io_context), std::ref(linkBuffer), std::ref(config));
     }
 
+    std::this_thread::sleep_for(std::chrono::seconds(2)); // suboptimal way of waiting for threads to start for now
+    std::cout << "Crawling in progress.\nStatistics:\n";
     while (true) {
         // check if threads are still running, if not, break the loop
         if (std::all_of(threads.begin(), threads.end(), [](std::thread& t) { return !t.joinable(); })) {
             break;
         }
-
-        std::cout << "Crawling in progress.";
+        // single line statistics (time elapsed & pages crawled)
+        std::cout << "\r" << std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - startTime).count() << "s elapsed, " << config.visitedPages.size() << " pages crawled, " << linkBuffer.size() << " links in buffer";
     }
 
 
