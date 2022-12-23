@@ -8,8 +8,10 @@ void rippyTask(asio::io_context& io_context, const LinkBuffer&, const rippyConfi
 }
 
 // linkbuffer definitions
-void LinkBuffer::add(std::string_view link)
+void LinkBuffer::addToQueue(std::string_view link)
 {
+    // add to unvisited_links
+    unvisited_links.push(link.data());
 }
 
 std::string LinkBuffer::getNext()
@@ -17,17 +19,8 @@ std::string LinkBuffer::getNext()
     return "";
 }
 
-bool LinkBuffer::isEmpty()
-{
-    return true;
-}
 
 size_t LinkBuffer::size()
 {
-    return 0;
-}
-
-size_t LinkBuffer::visitedSize()
-{
-    return 0;
+    return visited_links.size();
 }

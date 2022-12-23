@@ -161,7 +161,7 @@ int main(int argc, char* argv[])
     // add start pages to linkBuffer
     for (std::size_t i=0;i<config.domains.size();i++) {
         for (std::size_t j=0;j<config.domains[i].start_pages.size();j++) {
-            linkBuffer.add(config.domains[i].start_pages[j]);
+            linkBuffer.addToQueue(config.domains[i].start_pages[j]);
         }
     }
 
@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
             break;
         }
         // single line statistics (time elapsed & pages crawled)
-        std::cout << "\r" << std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - startTime).count() << "s elapsed, " << config.visitedPages.size() << " pages crawled, " << linkBuffer.size() << " links in buffer";
+        std::cout << "\r" << std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - startTime).count() << "s elapsed, " << config.visitedPages.size() << " pages crawled, " << linkBuffer.size() << " visited links";
     }
 
 

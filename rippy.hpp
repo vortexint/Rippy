@@ -42,11 +42,10 @@ class LinkBuffer {
     std::unordered_set<std::string_view> visited_links;
     std::queue<std::string> unvisited_links;
 public:
-    void add(std::string_view link);
+    void addToQueue(std::string_view link);
+    void makeVisited(std::string_view link);
     std::string getNext(); // get the next unvisited link
-    bool isEmpty(); // check if there are any unvisited links
-    size_t size(); // get the number of unvisited links
-    size_t visitedSize(); // get the number of visited links
+    size_t size(); // get the number of visited links
 };
 
 // Rippy thread task function with reference to LinkBuffer, rippyConfig, and asio::io_context
