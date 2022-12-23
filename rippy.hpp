@@ -42,7 +42,7 @@ class LinkBuffer {
     std::unordered_set<std::string_view> visited_links;
     std::queue<std::string> unvisited_links;
 public:
-    void checkAdd(const std::string& link); // check if link has been visited, if not, add it to the unvisited_links queue
+    void add(std::string_view link);
     std::string getNext(); // get the next unvisited link
     bool isEmpty(); // check if there are any unvisited links
     size_t size(); // get the number of unvisited links

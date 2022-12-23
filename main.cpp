@@ -158,6 +158,13 @@ int main(int argc, char* argv[])
         return 0;
     }
 
+    // add start pages to linkBuffer
+    for (std::size_t i=0;i<config.domains.size();i++) {
+        for (std::size_t j=0;j<config.domains[i].start_pages.size();j++) {
+            linkBuffer.add(config.domains[i].start_pages[j]);
+        }
+    }
+
     auto startTime = std::chrono::high_resolution_clock::now();
 
     asio::io_context io_context;
