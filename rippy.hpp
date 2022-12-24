@@ -45,7 +45,8 @@ public:
     void addToQueue(std::string_view link);
     void makeVisited(std::string_view link);
     std::string getNext(); // get the next unvisited link
-    size_t size(); // get the number of visited links
+    size_t visitedSize(); // number of visited links
+    size_t unvisitedSize();
 };
 
 // Rippy thread task function with reference to LinkBuffer, rippyConfig, and asio::io_context
