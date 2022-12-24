@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
             break;
         }
         // single line statistics (time elapsed & pages crawled)
-        std::cout << "\r" << std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - startTime).count() << "s elapsed, " << config.visitedPages.size() << " pages crawled, " << linkBuffer.size() << " visited links";
+        std::cout << "\r" << std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - startTime).count() << "s elapsed, " << config.visitedPages.size() << " pages crawled, " << linkBuffer.visitedSize() << " visited links, " << linkBuffer.queueSize() << " links in queue";
     }
 
 

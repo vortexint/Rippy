@@ -20,7 +20,12 @@ std::string LinkBuffer::getNext()
 }
 
 
-size_t LinkBuffer::size()
+size_t LinkBuffer::visitedSize()
 {
     return visited_links.size();
+}
+
+size_t LinkBuffer::queueSize()
+{
+    return unvisited_links.size();
 }
