@@ -167,13 +167,11 @@ int main(int argc, char* argv[])
 
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    asio::io_context io_context;
-
     // void rippyTask(asio::io_context& io_context, const LinkBuffer&, const rippyConfig& config);
     // create a pool of threads to run rippyTask and wait on a while loop while the threads are running
     std::vector<std::thread> threads(config.threads);
     for (std::size_t i=0;i<config.threads;i++) {
-        threads[i] = std::thread(rippyTask, std::ref(io_context), std::ref(linkBuffer), std::ref(config));
+        threads[i] = std::thread(rippyTask, std::ref(linkBuffer), std::ref(config));
     }
 
     std::this_thread::sleep_for(std::chrono::seconds(2)); // suboptimal way of waiting for threads to start for now

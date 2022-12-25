@@ -1,11 +1,11 @@
 #pragma once
 
-#define _WIN32_WINNT 0x0601
+//#define _WIN32_WINNT 0x0601
+
 #define VERSION "1.0"
 
 #include <iostream>
 #include <thread>
-#include <asio.hpp>
 #include <fstream>
 #include <unordered_set>
 #include <string>
@@ -50,4 +50,4 @@ public:
 };
 
 // Rippy thread task function with reference to LinkBuffer, rippyConfig, and asio::io_context
-void rippyTask(asio::io_context& io_context, const LinkBuffer&, const rippyConfig& config);
+void rippyTask(LinkBuffer&, const rippyConfig& config);

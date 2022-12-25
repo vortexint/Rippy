@@ -1,3 +1,6 @@
 [submodule "modules/yaml-cpp"]
 	path = modules/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "modules/HTTPRequest"]
+	path = modules/HTTPRequest
+	url = https://github.com/elnormous/HTTPRequest.git
